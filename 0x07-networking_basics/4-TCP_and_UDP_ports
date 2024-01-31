@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+### shows listening port
+echo 'Active Internet connections (only servers)'
+ss -tunl | awk 'NR>1 {print $1, $2, $3, $4, $5, $6}' | while read -r Proto
+Recv-Q Send-Q local_address foreign_address state; do
+	pid=$(lsof -i :$(echo ))
