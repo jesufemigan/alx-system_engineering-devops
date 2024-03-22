@@ -1,4 +1,3 @@
-#!/usr/bin/pup
 # a puppet manifest that installs flask
 package { 'flask':
   ensure   => '2.1.0',
