@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# a script that uses ssh to connect to server
+ssh-copy-id ubuntu@523718-web-01
+ssh ubuntu@523718-web-01
