@@ -1,10 +1,10 @@
 #edit config file to use private identity
 
-file { '~/.ssh/config':
+file { '/etc/ssh/ssh_config':
   ensure => present
 }
 
 file_line { 'add file identity': 
-  path => '~/.ssh/config',
+  path => '/etc/ssh/ssh_config',
   line => 'IdentityFile '~/.ssh/school'
 } 
