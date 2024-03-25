@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# installs nginx
+sudo apt update
+sudo apt -y install nginx
+sudo su
+echo 'Hello World!' > /var/www/html/index.nginx-debain.html
+pkill -HUP nginx
