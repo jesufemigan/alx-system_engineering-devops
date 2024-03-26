@@ -1,45 +1,49 @@
-# set up new ubuntu server with nginx
-
-exec { 'update system': 
+exec { 'update_system':
   command => '/usr/bin/apt-get -y update',
 }
 
 package { 'nginx':
-  ensure   => 'installed',
-  require  => Exec['update system']
+  ensure  => 'installed',
+  require => Exec['update_system'],
 }
 
 service { 'nginx':
   ensure  => 'running',
   enable  => true,
-  require => Package['nginx']
+  require => Package['nginx'],
 }
 
 exec { 'allow_http':
-  command  => 'usr/bin/ufw allow "Nginx HTTP"
+  command => '/usr/sbin/ufw allow "Nginx HTTP"',
+  unless  => '/usr/sbin/ufw status | grep "Nginx HTTP"',
 }
 
 file { '/var/www/html':
   ensure  => 'directory',
   owner   => $::id,
   group   => $::id,
-  recurse => '0755'
+  recurse => true,
+  mode    => '0755',
 }
 
 file { '/var/www/html/index.nginx-debian.html':
-  ensure   => 'file',
-  content  => 'Hello World!'
+  ensure  => 'file',
+  content => 'Hello World!',
 }
 
-exec { 'redirect_me': 
-  command   => 'sed -i "24i\        rewrite ^/redirect_me https://ww.youtube.com/watch?vQH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
+exec { 'backup_index':
+  command => '/bin/cp /var/www/html/index.nginx-debian.html /var/www/html/index.html.nginx-debian.html.bckp',
+  creates => '/var/www/html/index.html.nginx-debian.html.bckp',
+}
+
+file { '/etc/nginx/sites-available/default':
+  ensure  => 'file',
+}
+
+exec { 'add_rewrite_rule':
+  command   => 'sed -i "24i\        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
   provider  => 'shell',
   require   => Package['nginx'],
-  notify    => Service['nginx']
+  subscribe => File['/etc/nginx/sites-available/default'],
+  notify    => Service['nginx'],
 }
-
-service { 'nginx': 
-  ensure    => 'running',
-  require   => Package['nginx'],
-  subscribe => Exec['redirect_me']
-} 
