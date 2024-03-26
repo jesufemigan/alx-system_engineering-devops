@@ -1,3 +1,4 @@
+# a puppet file that set up an ubuntu server with nginx
 exec { 'update_system':
   command => '/usr/bin/apt-get -y update',
 }
