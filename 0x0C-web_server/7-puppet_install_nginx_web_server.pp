@@ -5,7 +5,7 @@ exec { 'update system':
 }
 
 package { 'nginx':
-  ensure   => installed,
+  ensure   => 'installed',
   require  => Exec['update system']
 }
 
@@ -15,7 +15,7 @@ file { '/var/www/html/index.html':
 
 exec { 'redirect_me': 
   command   => 'sed -i "24i\        rewrite ^/redirect_me https://ww.youtube.com/watch?vQH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default,
-  provider  => shell
+  provider  => 'shell'
 }
 
 service { 'nginx': 
