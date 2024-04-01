@@ -63,7 +63,7 @@ exec { 'add_error_page':
 }
 
 exec { 'add_header_rule':
-  command   => 'sed -i "26i\        add_header X-Served-By $hostname;" /etc/nginx/sites-available/default',
+  command   => 'sed -i "26i\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
   provider  => 'shell',
   require   => Package['nginx'],
   subscribe => File['/etc/nginx/sites-available/default'],
