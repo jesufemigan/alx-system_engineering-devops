@@ -1,3 +1,4 @@
+#puppet file to add header
 exec { 'HTTP header':
   command  => 'sudo sed -i "24i\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
   provider => shell
