@@ -37,6 +37,11 @@ exec { 'backup_index':
   creates => '/var/www/html/index.html.nginx-debian.html.bckp',
 }
 
+file { '/var/www/html/error_404.html':
+  ensure   => 'file',
+  content  => 'Ceci n'est pas une page',
+}
+
 file { '/etc/nginx/sites-available/default':
   ensure  => 'file',
 }
@@ -49,8 +54,16 @@ exec { 'add_rewrite_rule':
   notify    => Service['nginx'],
 }
 
+exec { 'add_error_page':
+  command   => 'sed -i "25i\        error_page 404 /error_404.html;" /etc/nginx/sites-available/default',
+  provider  => 'shell',
+  require   => Package['nginx'],
+  subscribe => File['/etc/nginx/sites-available/default'],
+  notify    => Service['nginx'],
+}
+
 exec { 'add_header_rule':
-  command   => 'sed -i "25i\        add_header X-Served-By $hostname;" /etc/nginx/sites-available/default',
+  command   => 'sed -i "26i\        add_header X-Served-By $hostname;" /etc/nginx/sites-available/default',
   provider  => 'shell',
   require   => Package['nginx'],
   subscribe => File['/etc/nginx/sites-available/default'],
