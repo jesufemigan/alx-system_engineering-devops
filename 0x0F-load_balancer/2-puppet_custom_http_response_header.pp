@@ -38,8 +38,8 @@ exec { 'backup_index':
 }
 
 file { '/var/www/html/error_404.html':
-  ensure   => 'file',
-  content  => 'Ceci n'est pas une page',
+  ensure  => 'file',
+  content => "Ceci n'est pas une page",
 }
 
 file { '/etc/nginx/sites-available/default':
