@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#commment
+for dir in $(ls .); do
+	cut -d - -f 2 <<< "$dir"
+done
