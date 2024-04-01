@@ -5,4 +5,4 @@ exec { 'HTTP header':
 
 exec { 'restart nginx':
   command => 'sudo service nginx restart',
- }
+}
