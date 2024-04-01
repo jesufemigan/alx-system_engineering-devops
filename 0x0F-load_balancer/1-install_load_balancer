@@ -13,8 +13,8 @@ new_config=\
 "
 backend my_backend
 	balance roundrobin
-	server1 54.172.227.144:80 check
-	server2 54.144.151.176:80 check
+	server 523718-web-01 54.172.227.144:80 check
+	server 523718-web-02 54.144.151.176:80 check
 frontend my_frontend
 	bind *:80
 	default_backend my_backend
