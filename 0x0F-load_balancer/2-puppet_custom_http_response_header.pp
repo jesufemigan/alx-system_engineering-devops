@@ -50,7 +50,7 @@ exec { 'add_rewrite_rule':
 }
 
 exec { 'add_header_rule':
-  command   => 'sed -i "25i\        add_header X-Served-By \$hostname;" /etc/nginx/sites-available/default',
+  command   => 'sed -i "25i\        add_header X-Served-By $hostname;" /etc/nginx/sites-available/default',
   provider  => 'shell',
   require   => Package['nginx'],
   subscribe => File['/etc/nginx/sites-available/default'],
