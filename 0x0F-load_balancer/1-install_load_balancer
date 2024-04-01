@@ -9,7 +9,7 @@ echo "HAProxy Installed!"
 
 ### configure HAProxy so it can send traffic to web-01 and web-02
 echo "Setting up HAProxy"
-new_config =\
+new_config=\
 "
 backend my_backend
 	balance roundrobin
