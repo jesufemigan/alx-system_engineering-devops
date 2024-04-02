@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#set up server to enable nginx to listen on port 80
+
+#a function to check if nginx is installed and if not it installs it
+function install() {
+	command -v "$1" &> /dev/null
+
+	if [ $? -ne 0 ]; then
+		echo -e "\t Installing: $1\n"
+		sudo apt-get update -y -qq && sudo apt-get install "$1" -y -qq
+		echo -e "\n"
+	else
+		echo -e "\t ${1} is installed already.\n"
+	fi
+}
+install nginx
+
+echo -e "\nSetting up nginx...\n"
+sudo ufw allow 'Nginx HTTP'
+
+if [ -d "/var/www" ]; then
+	sudo chown -R "$USER":"$USER" /var/www
+	sudo chmod 755 /var/www
+else
+	mkdir -p /var/www
+	sudo chown -R "$USER":"$:USER" /var/www
+	sudo chmod 755 /var/www
+fi
+echo -e "\nSuccessfully set up Nginx.\n"
+
+echo -e "\nPort 80 configuration...\n"
+
+nginx_config="/etc/nginx/sites-available/default"
+
+#check if nginx is already listening on port 80
+if [ -f "$nginx_config" ]; then
+	if ! grep -q "listen 80" "$nginx_config"; then
+		sudo sed -i '/listen [^80]/d' "$nginx_config"
+		sudo sed -i '/server_name/ a \        listen [::]:80 default_server;' "$nginx_config"
+		sudo sed -i '/server_name/ a \        listen 80 default_server;' "$nginx_config"
+		echo -e "\nAdded listen on 80 to $nginx_config\n"
+	else
+		echo -e "\nServer is already listening on port 80 in $nginx_config\n"
+	fi
+fi
+
+#check if nginx is running
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	sudo service nginx start
+else
+	sudo service nginx restart
+fi
