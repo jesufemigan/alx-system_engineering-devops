@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#comment
+pgrep -f bash | head -1
+echo $$
