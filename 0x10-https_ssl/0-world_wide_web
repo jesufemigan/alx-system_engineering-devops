@@ -2,8 +2,16 @@
 #comment
 function subdomain_details() {
 	result=$(dig "$1" | grep -A1 'ANSWER SECTION:' | tail -1)
-	subdomain=$(awk '{print $1}' <<< "$result")
 	record_type=$(awk '{print $4}' <<< "$result")
 	destination=$(awk '{print $5}' <<< "$result")
-	echo "The subdomain $1 is a $record_type record that points to $destination"
+	echo "The subdomain $(cut -d . -f 1 <<< "$1") is a $record_type record that points to $destination"
 }
+
+if [ $# -eq 1 ]; then
+	subdomain_details www."$1"
+	subdomain_details lb-01."$1"
+	subdomain_details web-01."$1"
+	subdomain_details web-02."$1"
+elif [ $# -eq 2 ]; then
+	subdomain_details "$2"."$1"
+fi
