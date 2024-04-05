@@ -4,7 +4,7 @@ function subdomain_details() {
 	result=$(dig "$1" | grep -A1 'ANSWER SECTION:' | tail -1)
 	record_type=$(awk '{print $4}' <<< "$result")
 	destination=$(awk '{print $5}' <<< "$result")
-	echo "The subdomain $(cut -d . -f 1 <<< "$1") is a $record_type record that points to $destination"
+	echo "The subdomain $(cut -d . -f 1 <<< "$1") is a $record_type record and points to $destination"
 }
 
 if [ $# -eq 1 ]; then
