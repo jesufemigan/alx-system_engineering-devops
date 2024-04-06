@@ -3,9 +3,7 @@
 
 #a function to check if nginx is installed and if not it installs it
 function install() {
-	command -v "$1" &> /dev/null
-
-	if [ $? -ne 0 ]; then
+	if ! command -v "$1"; then
 		echo -e "\t Installing: $1\n"
 		sudo apt-get update -y -qq && sudo apt-get install "$1" -y -qq
 		echo -e "\n"
@@ -23,7 +21,7 @@ if [ -d "/var/www" ]; then
 	sudo chmod 755 /var/www
 else
 	mkdir -p /var/www
-	sudo chown -R "$USER":"$:USER" /var/www
+	sudo chown -R "$USER":"$USER" /var/www
 	sudo chmod 755 /var/www
 fi
 echo -e "\nSuccessfully set up Nginx.\n"
