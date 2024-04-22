@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     employee_data = requests.get(user_url, {'id': employee_id})
     todo_data = requests.get(todo_url, {'userId': employee_id})
-    employee_name = employee_data.json()[0].get('name')
+    employee_name = employee_data.json()[0].get('username')
 
     with open(f'{employee_id}.csv', 'w', newline="") as f:
         writer = csv.writer(f, quoting=csv.QUOTE_ALL)
