@@ -17,7 +17,7 @@ if __name__ == "__main__":
     done_todos = len(completed_todo.json())
     total_todo = len(todo_data.json())
 
-    print(f'Employee {employee_name} is done with\
+    print(f'Employee {employee_name} is done with \
 tasks({done_todos}/{total_todo}):')
     for todo in completed_todo.json():
         print(f"\t {todo['title']}")
