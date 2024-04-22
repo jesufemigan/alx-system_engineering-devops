@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''displays an API response'''
+"""displays an API response"""
 
 import requests
 import sys
