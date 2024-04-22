@@ -14,7 +14,8 @@ if __name__ == "__main__":
     todo_data = requests.get(todo_url, {'userId': employee_id})
     employee_name = employee_data.json()[0].get('username')
     string = {f"{employee_id}": [{"task": t.get('title'), "completed":
-        t.get('completed'), "username": employee_name} for t in todo_data.json()]
-    
-    with open("f{employee_id}.json", "w") as f:
+              t.get('completed'), "username": employee_name}
+            for t in todo_data.json()]}
+
+    with open(f"{employee_id}.json", "w") as f:
         json.dump(string, f)
